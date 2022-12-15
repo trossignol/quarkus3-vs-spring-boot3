@@ -2,6 +2,7 @@
 
 In this project, we want to build some basics apps to test and compare Quarkus 3 and Spring-boot 3. We want to check differents points:
 * _JVM_ mode and _native_ mode
+* _Reactive_ development
 * _Docker_ and _K8S_ deployment
 * _Serverless_ with and without _AWS SnapStart_
 
@@ -14,7 +15,14 @@ And we will measure several metrics:
 * ...  
 
 ## Architecture
-
+```
+[Gatling] (load tests)
+    --> [Component]
+        --> [PostgreSQL] select request
+        -- x3
+            --> [label-service] (~200ms tempo)
+            --> Postgresql insert request
+```
 
 ## Sources
 
