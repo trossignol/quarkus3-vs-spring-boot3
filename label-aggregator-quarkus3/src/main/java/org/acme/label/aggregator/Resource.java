@@ -1,16 +1,14 @@
 package org.acme.label.aggregator;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
 
 import org.acme.label.aggregator.LabelClient.LabelResult;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import io.smallrye.common.annotation.Blocking;
 import io.smallrye.mutiny.Uni;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 import lombok.Getter;
 
 @Path("/api")
@@ -43,7 +41,7 @@ public class Resource {
 
         public Result(String key, List<LabelResult> results) {
             this.key = key;
-            this.labels = results.stream().map(LabelResult::getLabel).collect(Collectors.toList());
+            this.labels = results.stream().map(LabelResult::getLabel).toList();
         }
     }
 }
