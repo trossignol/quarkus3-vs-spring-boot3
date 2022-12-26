@@ -9,16 +9,17 @@ import io.gatling.javaapi.http.HttpProtocolBuilder;
 
 public class Simulation extends io.gatling.javaapi.core.Simulation {
 
-        HttpProtocolBuilder httpProtocol = http
-                        .baseUrl("http://localhost:8080")
-                        .acceptHeader("application/json");
+    HttpProtocolBuilder httpProtocol = http
+            .baseUrl("http://localhost:8090")
+            .acceptHeader("application/json");
 
-        ScenarioBuilder scn = scenario("Scenario")
-                        .exec(http("request_1")
-                                        // .get("/api/thomas/async"))
-                                        .get("/fruit/id/1"));
+    ScenarioBuilder scn = scenario("Scenario")
+            .exec(http("request_1")
+                    .get("/api/test"));
+    // .get("/api/thomas/async"))
+    // .get("/fruit/id/1"));
 
-        {
-                setUp(scn.injectOpen(rampUsersPerSec(1).to(30).during(30)).protocols(httpProtocol));
-        }
+    {
+        setUp(scn.injectOpen(rampUsersPerSec(1).to(30).during(10)).protocols(httpProtocol));
+    }
 }
