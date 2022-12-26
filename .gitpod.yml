@@ -4,3 +4,8 @@ image:
 vscode:
   extensions:
     - vscjava.vscode-java-pack
+    - redhat.java
+    - vscjava.vscode-java-debug
+    - vscjava.vscode-java-dependency
+    - vscjava.vscode-maven
+    - vscjava.vscode-java-test
