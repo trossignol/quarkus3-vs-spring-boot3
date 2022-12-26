@@ -1,0 +1,33 @@
+version: '3'
+services:
+  # mvn clean package && docker build -f src/main/docker/Dockerfile.jvm -t label-service .
+  service1:
+    image: label-service
+  service2:
+    image: label-service
+  service3:
+    image: label-service
+  service4:
+    image: label-service
+  service5:
+    image: label-service
+  service6:
+    image: label-service
+  service7:
+    image: label-service
+  service8:
+    image: label-service
+  loadbalancer:
+    build: load-balancer
+    depends_on:
+      - service1
+      - service2
+      - service3
+      - service4
+      - service5
+      - service6
+      - service7
+      - service8
+    ports:
+      - 8090:80
+    
