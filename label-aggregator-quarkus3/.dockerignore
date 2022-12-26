@@ -1,6 +1,4 @@
 *
-!mvnw
-!.mvn/
 !pom.xml
 !src/
 !target/*-runner
