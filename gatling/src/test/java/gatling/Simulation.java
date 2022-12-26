@@ -10,13 +10,13 @@ import io.gatling.javaapi.http.HttpProtocolBuilder;
 public class Simulation extends io.gatling.javaapi.core.Simulation {
 
     HttpProtocolBuilder httpProtocol = http
-            .baseUrl("http://localhost:8090")
+            .baseUrl("http://localhost:8080")
             .acceptHeader("application/json");
 
     ScenarioBuilder scn = scenario("Scenario")
             .exec(http("request_1")
-                    .get("/api/test"));
-    // .get("/api/thomas/async"))
+                    //.get("/api/test"));
+     .get("/api/test/async"));
     // .get("/fruit/id/1"));
 
     {
