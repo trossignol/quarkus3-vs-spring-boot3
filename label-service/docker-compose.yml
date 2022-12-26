@@ -2,20 +2,33 @@ version: '3'
 services:
   service1:
     image: label-service
+    deploy:
+      resources:
+        reservations:
+          memory: 16M
+        limits:
+          memory: 64M
   service2:
-    image: label-service
+    extends:
+      service: service1
   service3:
-    image: label-service
+    extends:
+      service: service1
   service4:
-    image: label-service
+    extends:
+      service: service1
   service5:
-    image: label-service
+    extends:
+      service: service1
   service6:
-    image: label-service
+    extends:
+      service: service1
   service7:
-    image: label-service
+    extends:
+      service: service1
   service8:
-    image: label-service
+    extends:
+      service: service1
   loadbalancer:
     build: load-balancer
     depends_on:

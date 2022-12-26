@@ -1,0 +1,9 @@
+services:
+  label-service:
+    image: label-service
+    deploy:
+      resources:
+        limits:
+          memory: 8M
+        reservations:
+          memory: 8M

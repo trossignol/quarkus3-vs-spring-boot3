@@ -9,7 +9,6 @@ import io.smallrye.common.annotation.Blocking;
 import io.smallrye.mutiny.Uni;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
-import lombok.Getter;
 
 @Path("/api")
 public class Resource {
@@ -21,7 +20,7 @@ public class Resource {
     @Path("/{key}/sync")
     @Blocking
     public Result getSync(String key) {
-        return new Result(key, List.of(this.labelClient.getSync(key), this.labelClient.getSync(key),
+        return Result.build(key, List.of(this.labelClient.getSync(key), this.labelClient.getSync(key),
                 this.labelClient.getSync(key)));
     }
 
@@ -31,17 +30,12 @@ public class Resource {
     public Uni<Result> getAsync(String key) {
         return Uni.join()
                 .all(this.labelClient.getAsync(key), this.labelClient.getAsync(key), this.labelClient.getAsync(key))
-                .andCollectFailures().map(labels -> new Result(key, labels));
+                .andCollectFailures().map(labels -> Result.build(key, labels));
     }
 
-    @Getter
-    public class Result {
-        private final String key;
-        private final List<String> labels;
-
-        public Result(String key, List<LabelResult> results) {
-            this.key = key;
-            this.labels = results.stream().map(LabelResult::getLabel).toList();
+    public record Result(String key, List<String> labels) {
+        static Result build(String key, List<LabelResult> results) {
+            return new Result(key, results.stream().map(LabelResult::label).toList());
         }
     }
 }

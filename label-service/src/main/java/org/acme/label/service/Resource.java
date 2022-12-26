@@ -1,32 +1,24 @@
 package org.acme.label.service;
 
 import java.time.Duration;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-
-import org.apache.commons.lang3.RandomUtils;
+import java.util.Random;
 
 import io.smallrye.mutiny.Uni;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.SneakyThrows;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
 @Path("/api")
 public class Resource {
 
+    private final Random random = new Random();
+
     @GET
     @Path("/{key}")
-    @SneakyThrows
     public Uni<Result> get(String key) {
         return Uni.createFrom().item(new Result(key, "label-for-key-" + key))
-                .onItem().delayIt().by(Duration.ofMillis(100 + RandomUtils.nextInt(0, 100)));
+                .onItem().delayIt().by(Duration.ofMillis(100 + random.nextInt(0, 100)));
     }
 
-    @Getter
-    @AllArgsConstructor
-    public class Result {
-        private String key;
-        private String label;
+    public record Result(String key, String label) {
     }
 }
