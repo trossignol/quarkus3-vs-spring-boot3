@@ -1,6 +1,5 @@
 version: '3'
 services:
-  # mvn clean package && docker build -f src/main/docker/Dockerfile.jvm -t label-service .
   service1:
     image: label-service
   service2:
@@ -30,4 +29,3 @@ services:
       - service8
     ports:
       - 8090:80
-    
