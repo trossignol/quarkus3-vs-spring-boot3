@@ -4,6 +4,7 @@ image:
 tasks:
   - init: |
       cd build-tools && make
+      cd ../label-service && make
 
 vscode:
   extensions:
