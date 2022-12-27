@@ -1,6 +1,10 @@
 image:
   file: .gitpod.Dockerfile
 
+tasks:
+  - init: |
+      cd build-tools && make
+
 vscode:
   extensions:
     - vscjava.vscode-java-pack
