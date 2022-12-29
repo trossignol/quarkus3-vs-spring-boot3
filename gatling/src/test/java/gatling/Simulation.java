@@ -20,6 +20,6 @@ public class Simulation extends io.gatling.javaapi.core.Simulation {
     // .get("/fruit/id/1"));
 
     {
-        setUp(scn.injectOpen(rampUsersPerSec(1).to(30).during(10)).protocols(httpProtocol));
+        setUp(scn.injectOpen(rampUsersPerSec(1).to(500).during(60)).protocols(httpProtocol));
     }
 }
