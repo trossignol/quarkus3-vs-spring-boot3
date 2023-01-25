@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.aggregator.LabelClient.LabelResult;
-
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -26,7 +24,7 @@ public class Resource {
 
     public record Result(String key, List<String> labels) {
         static Result build(String key, List<LabelResult> results) {
-            return new Result(key, results.stream().map(LabelResult::label).toList());
+            return new Result(key, results.stream().map(LabelResult::getLabel).toList());
         }
     }
 }
