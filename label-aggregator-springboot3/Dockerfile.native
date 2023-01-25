@@ -10,8 +10,6 @@ WORKDIR /code
 
 RUN ./mvnw -Pnative native:compile
 
-RUN echo aaaa && ls /code/target
-
 ## Stage 2 : create the docker final image
 FROM docker.io/oraclelinux:8-slim
 
