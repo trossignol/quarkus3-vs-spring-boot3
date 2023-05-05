@@ -7,16 +7,26 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class Resource(private val labelClient: LabelClient) {
-    @GetMapping("/") fun index(@RequestParam("name") name: String) = "Hello, $name!"
+    @GetMapping("/")
+    fun index(@RequestParam("name") name: String) = "Hello, $name!"
 
     @GetMapping("/api/{key}/async")
     suspend fun getLabels(
-            @PathVariable("key") key: String,
-            @RequestParam(value = "nb", defaultValue = "3") nb: Int
+        @PathVariable("key") key: String, @RequestParam(value = "nb", defaultValue = "3") nb: Int
     ): Result {
-        var labels = (1..nb).map { i -> labelClient.getAsync(key + i).label }
-        var results: Result = Result(key, labels)
-        return results
+        val labels: MutableList<String> = mutableListOf()
+        labels.addAll((1..nb).map { i ->
+            labelClient.getAsync(key + i).label
+        })
+
+        return Result(key, labels)
+    }
+
+    @GetMapping("/api/{key}/asyncall")
+    suspend fun getLabelsAll(
+        @PathVariable("key") key: String, @RequestParam(value = "nb", defaultValue = "3") nb: Int
+    ): Result {
+        return Result(key, labelClient.getAsyncAll(key, nb))
     }
 
     data class Result(val key: String, val labels: List<String>)
