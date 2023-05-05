@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class AggregatorApplication
+class AggregatorApplication {}
 
 fun main(args: Array<String>) {
-	runApplication<AggregatorApplication>(*args)
+    runApplication<AggregatorApplication>(*args)
 }
