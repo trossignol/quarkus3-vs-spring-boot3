@@ -9,9 +9,7 @@ plugins {
 }
 
 group = "com.example"
-
 version = "0.0.1-SNAPSHOT"
-
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories { mavenCentral() }
@@ -23,6 +21,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

@@ -1,5 +1,8 @@
 default: build
 
+dev:
+	mvn clean quarkus:dev
+
 build:
 	docker build -f Dockerfile.native -t label-service .
 #	mvn clean package && docker build -f Dockerfile.jvm -t label-service .
