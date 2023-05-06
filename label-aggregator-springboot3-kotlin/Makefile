@@ -1,5 +1,8 @@
 default: run
 
+clean:
+	./gradlew clean
+
 dev:
 	./gradlew bootRun
 
