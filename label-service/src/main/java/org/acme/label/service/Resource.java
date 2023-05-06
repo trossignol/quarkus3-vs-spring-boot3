@@ -15,7 +15,6 @@ public class Resource {
     @GET
     @Path("/{key}")
     public Uni<Result> get(String key) {
-        System.out.println("Get for key=" + key);
         return Uni.createFrom().item(new Result(key, "label-for-key-" + key))
                 .onItem().delayIt().by(Duration.ofMillis(100 + random.nextInt(0, 100)));
     }
