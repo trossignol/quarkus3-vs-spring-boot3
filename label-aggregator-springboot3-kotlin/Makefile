@@ -9,7 +9,7 @@ dev:
 build:
 	./gradlew clean build
 
-run:
+run: build
 	java -jar build/libs/aggregator-*-SNAPSHOT.jar
 
 build-native:
