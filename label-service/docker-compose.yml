@@ -29,7 +29,7 @@ services:
   service8:
     extends:
       service: service1
-  loadbalancer:
+  load-balancer:
     build: load-balancer
     depends_on:
       - service1
@@ -41,4 +41,4 @@ services:
       - service7
       - service8
     ports:
-      - 8090:80
+      - "8090:80"
