@@ -18,10 +18,10 @@ And we will measure several metrics:
 ```
 [Gatling] (load tests)
     --> [Component]
-        --> [PostgreSQL] select request
+        --> [TODO][PostgreSQL] select request
         -- x3
-            --> [label-service] (~200ms tempo)
-            --> Postgresql insert request
+            --> [label-service] (~150ms tempo)
+            --> [TODO][PostgreSQL] insert request
 ```
 
 ## Sources

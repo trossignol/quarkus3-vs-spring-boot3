@@ -9,7 +9,8 @@ import org.springframework.web.reactive.function.client.awaitExchange
 
 @Service
 class LabelClient(private val client: WebClient) {
-    @Value("\${label-client.url}") private lateinit var baseURL: String
+    @Value("\${label-client.url}")
+    private lateinit var baseURL: String
 
     suspend fun getAsync(key: String): LabelResult =
             client.get().uri("$baseURL/${key}").awaitExchange { clientResponse ->
