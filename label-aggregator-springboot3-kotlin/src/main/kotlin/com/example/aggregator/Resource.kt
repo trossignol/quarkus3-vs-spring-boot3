@@ -18,7 +18,7 @@ class Resource(private val labelClient: LabelClient) {
     @GetMapping("/api/{key}/async")
     suspend fun getAsync(
             @PathVariable(name = "key", required = true) @Parameter(description = "Key for labels") key: String,
-            @RequestParam(name = "nb", defaultValue = "5") @Parameter(description = "Nb of labels requested") nb: Int
+            @RequestParam(name = "nb", defaultValue = "3") @Parameter(description = "Nb of labels requested") nb: Int
     ): Result {
         val scope = CoroutineScope(Dispatchers.Default)
         return Result(
