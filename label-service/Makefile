@@ -1,13 +1,19 @@
 default: build
 
+dev:
+	mvn clean quarkus:dev
+
+gatling:
+	mvn gatling:test
+
 build:
 	docker build -f Dockerfile.native -t label-service .
 #	mvn clean package && docker build -f Dockerfile.jvm -t label-service .
 
-build-loadbalancer:
-	docker-compose build loadbalancer
+build-load-balancer:
+	docker-compose build load-balancer
 
-run: build-loadbalancer
+run: build-load-balancer
 	docker-compose up -d
 
 stop:
