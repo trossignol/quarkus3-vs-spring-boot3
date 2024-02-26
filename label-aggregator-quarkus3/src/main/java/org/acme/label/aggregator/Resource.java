@@ -1,7 +1,11 @@
 package org.acme.label.aggregator;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
+import io.quarkus.virtual.threads.VirtualThreads;
 import org.acme.label.aggregator.LabelClient.LabelResult;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -17,9 +21,11 @@ public class Resource {
     @RestClient
     LabelClient labelClient;
 
+    @VirtualThreads
+    ExecutorService executorService;
+
     @GET
     @Path("/{key}/sync")
-    @Blocking
     public Result getSync(String key) {
         return Result.build(key, List.of(this.labelClient.getSync(key), this.labelClient.getSync(key),
                 this.labelClient.getSync(key)));
@@ -27,7 +33,6 @@ public class Resource {
 
     @GET
     @Path("/{key}/async")
-    @Blocking
     public Uni<Result> getAsync(String key) {
         return Uni.join()
                 .all(this.labelClient.getAsync(key), this.labelClient.getAsync(key), this.labelClient.getAsync(key))
@@ -36,7 +41,6 @@ public class Resource {
 
     @GET
     @Path("/{key}/sync/vt")
-    @Blocking
     @RunOnVirtualThread
     public Result getSyncVirtualThread(String key) {
         return Result.build(key, List.of(this.labelClient.getSync(key), this.labelClient.getSync(key),
@@ -45,12 +49,28 @@ public class Resource {
 
     @GET
     @Path("/{key}/async/vt")
-    @Blocking
     @RunOnVirtualThread
-    public Uni<Result> getAsyncVirtualThread(String key) {
-        return Uni.join()
-                .all(this.labelClient.getAsync(key), this.labelClient.getAsync(key), this.labelClient.getAsync(key))
-                .andCollectFailures().map(labels -> Result.build(key, labels));
+    public Result getAsyncVirtualThread(String key) throws CancellationException,InterruptedException, ExecutionException {
+        List<Callable<LabelResult>> toCall = Arrays.asList(
+                () -> this.labelClient.getSync(key),
+                () -> this.labelClient.getSync(key),
+                () -> this.labelClient.getSync(key)
+        );
+
+        return Result.build(key,executorService.invokeAll(toCall)
+                .stream()
+                .map(this::getLabelStringFromFuture).collect(Collectors.toList()));
+
+    }
+
+    private LabelResult getLabelStringFromFuture (Future<LabelResult> labelResultFuture){
+        try {
+            return labelResultFuture.get();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public record Result(String key, List<String> labels) {
