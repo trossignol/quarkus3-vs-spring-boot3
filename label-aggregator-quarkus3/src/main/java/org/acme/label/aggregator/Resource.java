@@ -6,6 +6,7 @@ import org.acme.label.aggregator.LabelClient.LabelResult;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import io.smallrye.common.annotation.Blocking;
+import io.smallrye.common.annotation.RunOnVirtualThread;
 import io.smallrye.mutiny.Uni;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -28,6 +29,25 @@ public class Resource {
     @Path("/{key}/async")
     @Blocking
     public Uni<Result> getAsync(String key) {
+        return Uni.join()
+                .all(this.labelClient.getAsync(key), this.labelClient.getAsync(key), this.labelClient.getAsync(key))
+                .andCollectFailures().map(labels -> Result.build(key, labels));
+    }
+
+    @GET
+    @Path("/{key}/sync/vt")
+    @Blocking
+    @RunOnVirtualThread
+    public Result getSyncVirtualThread(String key) {
+        return Result.build(key, List.of(this.labelClient.getSync(key), this.labelClient.getSync(key),
+                this.labelClient.getSync(key)));
+    }
+
+    @GET
+    @Path("/{key}/async/vt")
+    @Blocking
+    @RunOnVirtualThread
+    public Uni<Result> getAsyncVirtualThread(String key) {
         return Uni.join()
                 .all(this.labelClient.getAsync(key), this.labelClient.getAsync(key), this.labelClient.getAsync(key))
                 .andCollectFailures().map(labels -> Result.build(key, labels));
