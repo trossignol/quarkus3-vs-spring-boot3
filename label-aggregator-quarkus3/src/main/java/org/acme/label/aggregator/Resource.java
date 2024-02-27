@@ -9,7 +9,6 @@ import io.quarkus.virtual.threads.VirtualThreads;
 import org.acme.label.aggregator.LabelClient.LabelResult;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import io.smallrye.common.annotation.Blocking;
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import io.smallrye.mutiny.Uni;
 import jakarta.ws.rs.GET;
